@@ -59,7 +59,7 @@ def eia_inference_handler():
 
 
 def test_default_model_fn(inference_handler):
-    with mock.patch("sagemaker_pytorch_serving_container.default_pytorch_inference_handler.os") as mock_os:
+    with mock.patch("sagemaker_pytorch_serving_container.default_inference_handler.os") as mock_os:
         mock_os.getenv.return_value = "true"
         mock_os.path.join = os.path.join
         mock_os.path.exists.return_value = True
@@ -70,7 +70,7 @@ def test_default_model_fn(inference_handler):
 
 
 def test_default_model_fn_unknown_name(inference_handler):
-    with mock.patch("sagemaker_pytorch_serving_container.default_pytorch_inference_handler.os") as mock_os:
+    with mock.patch("sagemaker_pytorch_serving_container.default_inference_handler.os") as mock_os:
         mock_os.getenv.return_value = "false"
         mock_os.path.join = os.path.join
         mock_os.path.exists.return_value = False
@@ -87,7 +87,7 @@ def test_default_model_fn_unknown_name(inference_handler):
     "listdir_return_value", [["abcd.py", "efgh.txt", "ijkl.bin"], ["abcd.pt", "efgh.pth"]]
 )
 def test_default_model_fn_no_model_file(inference_handler, listdir_return_value):
-    with mock.patch("sagemaker_pytorch_serving_container.default_pytorch_inference_handler.os") as mock_os:
+    with mock.patch("sagemaker_pytorch_serving_container.default_inference_handler.os") as mock_os:
         mock_os.getenv.return_value = "false"
         mock_os.path.join = os.path.join
         mock_os.path.exists.return_value = False
@@ -106,7 +106,7 @@ def _produce_runtime_error(x, **kwargs):
 
 @pytest.mark.parametrize("test_case", ["eia", "non_eia"])
 def test_default_model_fn_non_torchscript_model(inference_handler, test_case):
-    with mock.patch("sagemaker_pytorch_serving_container.default_pytorch_inference_handler.os") as mock_os:
+    with mock.patch("sagemaker_pytorch_serving_container.default_inference_handler.os") as mock_os:
         mock_os.getenv.return_value = "true" if test_case == "eia" else "false"
         mock_os.path.join = os.path.join
         mock_os.path.exists.return_value = True
